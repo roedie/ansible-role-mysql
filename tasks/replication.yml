@@ -1,5 +1,5 @@
 ---
-- name: Ensure replication user exists on master.
+- name: Ensure replication user exists on master and slave.
   mysql_user:
     name: "{{ mysql_replication_user.name }}"
     host: "{{ mysql_replication_user.host | default('%') }}"
@@ -15,6 +15,7 @@
 - name: Check slave replication status.
   mysql_replication:
     mode: getslave
+    login_host: "{{ mysql_replication_user.host }}"
     login_user: "{{ mysql_replication_user.name }}"
     login_password: "{{ mysql_replication_user.password }}"
   ignore_errors: true
